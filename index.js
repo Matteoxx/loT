@@ -1,6 +1,6 @@
 import {Navigation} from "react-native-navigation";
 import App from './App';
-import Creatingdevice from './screens/creatingdevice';
+import Creatingdevice from './screens/Creatingdevice';
 
 
 Navigation.registerComponent(`App`, () => App);
