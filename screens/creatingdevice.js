@@ -3,20 +3,21 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native
 import LinearGradient from 'react-native-linear-gradient';
 import _ from 'lodash';
 import {Navigation} from 'react-native-navigation';
+import { ColorPicker } from 'react-native-color-picker'
 import SQLite from 'react-native-sqlite-storage';
  
 var db = SQLite.openDatabase({name: 'database.db', createFromLocation: '~www/database.db'});
 
 export default class Creatingdevice extends Component {
   
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       name: '',
       place: '',
       command: '',
-      colorOfTile: '',
+      colorOfTile: this.props.colorOfTile,
     }
 
   }
@@ -41,8 +42,7 @@ export default class Creatingdevice extends Component {
 
     if(this.state.name === '' ||
       this.state.place === '' ||
-      this.state.command === '' ||
-      this.state.colorOfTile === ''
+      this.state.command === '' 
     ){
 
       alert("Uzupełnij wszystkie pola!")
@@ -60,14 +60,32 @@ export default class Creatingdevice extends Component {
 
       });
 
-      // this.closeModal();
-      this.goToScreen('App')
+      this.goToScreen('Devices')
 
     }
   }
 
   closeModal(){
     Navigation.dismissModal(this.props.componentId);
+  }
+
+  goToModalScreen = (componentName, title) => {
+    Navigation.showModal({
+      stack: {
+        children: [{
+          component: {
+            name: componentName,
+            options: {
+              topBar: {
+                title: {
+                  text: title
+                }
+              }
+            }
+          }
+        }]
+      }
+    });
   }
 
   render() {
@@ -106,14 +124,13 @@ export default class Creatingdevice extends Component {
                 }           
             />  
 
-            <TextInput style={styles.textInput} placeholder="Color"
-                onChangeText={(text) => {
-                  this.setState({
-                      colorOfTile: text  
-                  })
-                }
-                }           
-            />   
+            {/* <TouchableOpacity style={[{backgroundColor: '#fa8072'}, styles.inputColor ]} 
+                              onPress={()=>this.goToModalScreen('Pickingcolor','Color picking')}> */}
+                               <TouchableOpacity style={[{backgroundColor: this.state.colorOfTile}, styles.inputColor ]} 
+                              onPress={()=>this.goToModalScreen('Pickingcolor','Color picking')}>
+              <Text></Text>
+            </TouchableOpacity>
+
 
           </View>
 
@@ -157,11 +174,21 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     borderRadius: 5
   },
+  inputColor: {
+    padding: 10,
+    marginTop: '10%',
+    width: '75%',
+    height: '25%',
+    borderWidth: 1,
+    fontSize: 18,
+    textAlign: 'left',
+    borderRadius: 5
+  },
   btn: {
     borderWidth: 1,
     width: '35%',
     padding: 5,
-    marginTop: '10%',
+    marginTop: '5%',
     borderRadius: 5
   },
   btnTxt: {
@@ -173,6 +200,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-around'
-  }
+  },
 
 });
