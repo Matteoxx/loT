@@ -1,15 +1,8 @@
 import {Navigation} from "react-native-navigation";
-// import HomePage from './App';
-// import Creatingdevice from './screens/Creatingdevice';
-// import Pickingcolor from './screens/Pickingcolor';
-
 import {registerScreens} from './screens/';
 
 registerScreens();
 
-// Navigation.registerComponent(`HomePage`, () => HomePage);
-// Navigation.registerComponent(`Creatingdevice`, () => Creatingdevice);
-// Navigation.registerComponent(`Pickingcolor`, () => Pickingcolor);
 
 
 Navigation.events().registerAppLaunchedListener(() => {

@@ -14,7 +14,9 @@ export default class Pickingcolor extends Component {
     super(props);
 
     this.state = {
-       
+       name:  this.props.name,
+       place: this.props.place,
+       command: this.props.command
     }
 
   }
@@ -24,7 +26,10 @@ export default class Pickingcolor extends Component {
       component: {
         name: 'Creatingdevice',
         passProps: {
-            colorOfTile: color
+            colorOfTile: color,
+            name: this.state.name,
+            place: this.state.place,
+            command: this.state.command
         },
         options: {
           topBar: {
@@ -40,7 +45,7 @@ export default class Pickingcolor extends Component {
   render() {
 
     return (
-      <LinearGradient colors={['#4c8ce6','#4B7284']} style={styles.linearGradient}>
+      <LinearGradient colors={['#A6fcd2','#Afd5f6']} style={styles.linearGradient}>
 
         <View style={styles.container}>
 
@@ -51,7 +56,7 @@ export default class Pickingcolor extends Component {
                 }}
                 style={styles.colorPicker}
         />
-
+        <Text>{this.state.name}</Text>
         </View>
       </LinearGradient>
     );

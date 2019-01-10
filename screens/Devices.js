@@ -39,6 +39,8 @@ export default class Devices extends Component {
 
   }
 
+  
+
   goToModalScreen = (componentName, title) => {
     Navigation.showModal({
       stack: {
@@ -106,14 +108,13 @@ export default class Devices extends Component {
 
 
     return (
-    
+   
         <ScrollView style={styles.container}>
-           <LinearGradient colors={['#A6fcd2','#Afd5f6']} 
-              style={styles.linearGradient}
-            >
+        
             {rowsOfTiles}
-            </LinearGradient>
+     
         </ScrollView>
+    
     );
 }
 }
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
   tile: {
       width: 150,
       height: 150,
-      borderColor: '#000000',
+      // borderColor: '#000000',
       borderWidth: 1,
       margin: 15,
       justifyContent: 'center'

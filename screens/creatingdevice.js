@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native
 import LinearGradient from 'react-native-linear-gradient';
 import _ from 'lodash';
 import {Navigation} from 'react-native-navigation';
-import { ColorPicker } from 'react-native-color-picker'
 import SQLite from 'react-native-sqlite-storage';
  
 var db = SQLite.openDatabase({name: 'database.db', createFromLocation: '~www/database.db'});
@@ -37,6 +36,15 @@ export default class Creatingdevice extends Component {
     })
   }
 
+  componentDidMount(){
+    this.setState({
+      name: this.props.name,
+      place: this.props.place,
+      command: this.props.command
+      
+    })
+  }
+
 
   addDeviceToDatabase(name, place, command, colorOfTile){
 
@@ -59,7 +67,9 @@ export default class Creatingdevice extends Component {
         db.executeSql(query);
 
       });
-
+      
+      // Navigation.dismissAllModals();
+      // this.closeModal();
       this.goToScreen('Devices')
 
     }
@@ -69,12 +79,17 @@ export default class Creatingdevice extends Component {
     Navigation.dismissModal(this.props.componentId);
   }
 
-  goToModalScreen = (componentName, title) => {
+  goToColorPicking = (componentName, title) => {
     Navigation.showModal({
       stack: {
         children: [{
           component: {
             name: componentName,
+            passProps: {
+              name: this.state.name,
+              place: this.state.place,
+              command: this.state.command
+            },
             options: {
               topBar: {
                 title: {
@@ -91,7 +106,7 @@ export default class Creatingdevice extends Component {
   render() {
 
     return (
-      <LinearGradient colors={['#4c8ce6','#4B7284']} style={styles.linearGradient}>
+      <LinearGradient colors={['#A6fcd2','#Afd5f6']} style={styles.linearGradient}>
 
         <View style={styles.container}>
 
@@ -102,8 +117,8 @@ export default class Creatingdevice extends Component {
                   this.setState({
                       name: text  
                   })
-                }
-                }           
+                }}
+                value={this.state.name}         
             />
 
             <TextInput style={styles.textInput} placeholder="Place"
@@ -112,7 +127,8 @@ export default class Creatingdevice extends Component {
                       place: text  
                   })
                 }
-                }           
+                }       
+                value={this.state.place}     
             />
 
             <TextInput style={styles.textInput} placeholder="Command"
@@ -121,13 +137,12 @@ export default class Creatingdevice extends Component {
                       command: text  
                   })
                 }
-                }           
+                }     
+                value={this.state.command}       
             />  
 
-            {/* <TouchableOpacity style={[{backgroundColor: '#fa8072'}, styles.inputColor ]} 
-                              onPress={()=>this.goToModalScreen('Pickingcolor','Color picking')}> */}
-                               <TouchableOpacity style={[{backgroundColor: this.state.colorOfTile}, styles.inputColor ]} 
-                              onPress={()=>this.goToModalScreen('Pickingcolor','Color picking')}>
+            <TouchableOpacity style={[{backgroundColor: this.state.colorOfTile}, styles.inputColor ]} 
+                              onPress={()=>this.goToColorPicking('Pickingcolor','Color picking')}>
               <Text></Text>
             </TouchableOpacity>
 
