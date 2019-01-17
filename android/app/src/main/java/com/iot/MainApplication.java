@@ -1,4 +1,4 @@
-package com.lot;
+package com.iot;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;

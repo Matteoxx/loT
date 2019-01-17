@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-type Props = {};
-export default class Connect extends Component<Props> {
+
+export default class Connect extends Component {
 
   constructor(props) {
     super(props);

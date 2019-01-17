@@ -1,4 +1,4 @@
-package com.lot;
+package com.iot;
 
 import com.reactnativenavigation.NavigationActivity;
 import org.devio.rn.splashscreen.SplashScreen;

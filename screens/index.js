@@ -4,10 +4,14 @@ import Connect from './Connect';
 import Devices from './Devices';
 import Creatingdevice from './Creatingdevice';
 import Pickingcolor from './Pickingcolor';
+import EditDevice from './EditDevice';
+
 
 export function registerScreens() {
     Navigation.registerComponent(`Connect`, () => Connect);
     Navigation.registerComponent(`Devices`, () => Devices);
     Navigation.registerComponent(`Creatingdevice`, () => Creatingdevice);
     Navigation.registerComponent(`Pickingcolor`, () => Pickingcolor);
+    Navigation.registerComponent(`EditDevice`, () => EditDevice);
+
 }

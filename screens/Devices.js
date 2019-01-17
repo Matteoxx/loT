@@ -41,19 +41,41 @@ export default class Devices extends Component {
 
   
 
-  goToModalScreen = (componentName, title) => {
+  goToCreatingDeviceScreen = () => {
     Navigation.showModal({
       stack: {
         children: [{
           component: {
-            name: componentName,
+            name: 'Creatingdevice',
             passProps: {
-              componentId: componentName
+              // componentId: componentName
             },
             options: {
               topBar: {
                 title: {
-                  text: title
+                  text: 'New device'
+                }
+              }
+            }
+          }
+        }]
+      }
+    });
+  }
+
+  goToEditDeviceScreen = (deviceInfo) => {
+    Navigation.showModal({
+      stack: {
+        children: [{
+          component: {
+            name: 'EditDevice',
+            passProps: {
+              deviceInfo: deviceInfo
+            },
+            options: {
+              topBar: {
+                title: {
+                  text: 'Edit Device'
                 }
               }
             }
@@ -72,7 +94,9 @@ export default class Devices extends Component {
     for (let i = 0; i < this.state.devices.length; i++) {
         row.push(
             <View key={i}>
-                <TouchableOpacity style={[styles.tile, {backgroundColor: this.state.devices[i].colorOfTile}]}>
+                <TouchableOpacity style={[styles.tile, {backgroundColor: this.state.devices[i].colorOfTile}]}
+                  onLongPress={()=> this.goToEditDeviceScreen(this.state.devices[i])}
+                  >
                   <Text style={styles.tileTextName}>{this.state.devices[i].name}</Text>
                   <Text style={styles.tileTextPlace}>{this.state.devices[i].place}</Text>
                 </TouchableOpacity>
@@ -93,7 +117,9 @@ export default class Devices extends Component {
                 {row}
                
 
-                <TouchableOpacity style={styles.tile} onPress={() => this.goToModalScreen('Creatingdevice','New device')}>
+                <TouchableOpacity style={styles.tile} 
+                  onPress={() => this.goToCreatingDeviceScreen()}
+                  >
 
                   <Text style={styles.tileTextPlus}>+</Text>
 

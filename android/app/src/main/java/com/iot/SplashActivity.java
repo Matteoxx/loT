@@ -1,4 +1,4 @@
-package com.lot;
+package com.iot;
 
 import android.content.Intent;
 import android.os.Bundle;
