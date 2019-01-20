@@ -63,14 +63,18 @@ export default class Devices extends Component {
     });
   }
 
-  goToEditDeviceScreen = (deviceInfo) => {
+  goToEditDeviceScreen = (deviceName, devicePlace, deviceCommand, deviceColorOfTile) => {
     Navigation.showModal({
       stack: {
         children: [{
           component: {
             name: 'EditDevice',
             passProps: {
-              deviceInfo: deviceInfo
+              deviceToChange: deviceName,
+              deviceName: deviceName,
+              devicePlace: devicePlace,
+              deviceCommand: deviceCommand,
+              deviceColorOfTile: deviceColorOfTile,
             },
             options: {
               topBar: {
@@ -95,8 +99,11 @@ export default class Devices extends Component {
         row.push(
             <View key={i}>
                 <TouchableOpacity style={[styles.tile, {backgroundColor: this.state.devices[i].colorOfTile}]}
-                  onLongPress={()=> this.goToEditDeviceScreen(this.state.devices[i])}
-                  >
+                  onLongPress={()=> this.goToEditDeviceScreen(this.state.devices[i].name,
+                                                              this.state.devices[i].place,
+                                                              this.state.devices[i].command,
+                                                              this.state.devices[i].colorOfTile
+                  )}>
                   <Text style={styles.tileTextName}>{this.state.devices[i].name}</Text>
                   <Text style={styles.tileTextPlace}>{this.state.devices[i].place}</Text>
                 </TouchableOpacity>

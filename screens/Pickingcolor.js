@@ -24,7 +24,7 @@ export default class Pickingcolor extends Component {
   goBack = (color) => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'Creatingdevice',
+        name: this.props.componentName,
         passProps: {
             colorOfTile: color,
             name: this.state.name,
@@ -34,7 +34,7 @@ export default class Pickingcolor extends Component {
         options: {
           topBar: {
             title: {
-              text: 'New device'
+              text: this.props.componentName
             }
           }
         }

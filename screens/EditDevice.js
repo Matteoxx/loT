@@ -5,40 +5,64 @@ import {Navigation} from 'react-native-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import SQLite from 'react-native-sqlite-storage';
 
+var db = SQLite.openDatabase({name: 'database.db', createFromLocation: '~www/database.db'});
+
 export default class EditDevice extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      name: this.props.deviceInfo.name,
-      place: this.props.deviceInfo.place,
-      command: this.props.deviceInfo.command,
-      colorOfTile: this.props.colorOfTile,
-      // deviceInfo: this.props.deviceInfo
+      name: this.props.deviceName,
+      place: this.props.devicePlace,
+      command: this.props.deviceCommand,
+      colorOfTile: this.props.deviceColorOfTile
     }
 
   }
 
   _updateDevice(){
-
+    let query = `UPDATE devices SET name = '${this.state.name}', place = '${this.state.place}', command = '${this.state.command}', colorOfTile = '${this.state.colorOfTile}'
+                  WHERE name = '${this.props.deviceToChange}'`;
+    db.executeSql(query);
+    this.goToScreen('Devices');
   }
 
   _deleteDevice(){
 
+    let query = `DELETE FROM devices WHERE name = '${this.props.deviceToChange}'`;
+    db.executeSql(query);
+    this.goToScreen('Devices');
+
   }
 
   closeModal(){
-    Navigation.dismissModal(this.props.componentId);
+    Navigation.dismissAllModals();
   }
 
-  goToColorPicking = (componentName, title) => {
+  goToScreen = (screenName) => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: screenName,
+        options: {
+          topBar: {
+            title: {
+              text: screenName
+            }
+          }
+        }
+      }
+    })
+  }
+
+  goToColorPicking = () => {
     Navigation.showModal({
       stack: {
         children: [{
           component: {
-            name: componentName,
+            name: 'Pickingcolor',
             passProps: {
+              componentName: 'EditDevice',
               name: this.state.name,
               place: this.state.place,
               command: this.state.command
@@ -46,7 +70,7 @@ export default class EditDevice extends Component {
             options: {
               topBar: {
                 title: {
-                  text: title
+                  text: 'Pick color'
                 }
               }
             }
@@ -61,51 +85,51 @@ export default class EditDevice extends Component {
       <LinearGradient colors={['#A6fcd2','#Afd5f6']} style={styles.linearGradient}>
 
         <View style={styles.container}>
-        
+
           <TextInput style={styles.textInput} placeholder="Name"
               onChangeText={(text) => {
                 this.setState({
-                    name: text  
+                    name: text
                 })
               }}
-              value={this.state.name}         
+              value={this.state.name}
           />
 
           <TextInput style={styles.textInput} placeholder="Place"
               onChangeText={(text) => {
                 this.setState({
-                    place: text  
+                    place: text
                 })
               }
-              }       
-              value={this.state.place}     
+              }
+              value={this.state.place}
           />
 
           <TextInput style={styles.textInput} placeholder="Command"
               onChangeText={(text) => {
                 this.setState({
-                    command: text  
+                    command: text
                 })
               }
-              }     
-              value={this.state.command}       
-          />  
+              }
+              value={this.state.command}
+          />
 
-          <TouchableOpacity style={[{backgroundColor: this.state.colorOfTile}, styles.inputColor ]} 
-                            onPress={()=>this.goToColorPicking('Pickingcolor','Color picking')}>
+          <TouchableOpacity style={[{backgroundColor: this.state.colorOfTile}, styles.inputColor ]}
+                            onPress={()=>this.goToColorPicking()}>
             <Text></Text>
           </TouchableOpacity>
-          
-          
+
+
           <TouchableOpacity style={styles.btn} onPress={()=> this.closeModal()}>
             <Text style={styles.btnTxt}>Cancel</Text>
           </TouchableOpacity>
-          
-          <View 
+
+          <View
           style={styles.menu}
             >
-      
-            <TouchableOpacity style={styles.btn} 
+
+            <TouchableOpacity style={styles.btn}
               onPress={() => this._updateDevice()}
               >
               <Text style={styles.btnTxt}>Update tile</Text>

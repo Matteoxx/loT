@@ -68,7 +68,6 @@ export default class Creatingdevice extends Component {
 
       });
       
-      // Navigation.dismissAllModals();
       // this.closeModal();
       this.goToScreen('Devices')
 
@@ -76,16 +75,17 @@ export default class Creatingdevice extends Component {
   }
 
   closeModal(){
-    Navigation.dismissModal(this.props.componentId);
+    Navigation.dismissAllModals();
   }
 
-  goToColorPicking = (componentName, title) => {
+  goToColorPicking = () => {
     Navigation.showModal({
       stack: {
         children: [{
           component: {
-            name: componentName,
+            name: 'Pickingcolor',
             passProps: {
+              componentName: 'Creatingdevice',
               name: this.state.name,
               place: this.state.place,
               command: this.state.command
@@ -93,7 +93,7 @@ export default class Creatingdevice extends Component {
             options: {
               topBar: {
                 title: {
-                  text: title
+                  text: 'Pick color'
                 }
               }
             }
@@ -142,7 +142,7 @@ export default class Creatingdevice extends Component {
             />  
 
             <TouchableOpacity style={[{backgroundColor: this.state.colorOfTile}, styles.inputColor ]} 
-                              onPress={()=>this.goToColorPicking('Pickingcolor','Color picking')}>
+                              onPress={()=>this.goToColorPicking()}>
               <Text></Text>
             </TouchableOpacity>
 
