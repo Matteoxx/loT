@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, ScrollView, RefreshControl} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import SplashScreen from 'react-native-splash-screen';
 import LinearGradient from 'react-native-linear-gradient';
@@ -8,13 +8,14 @@ import SQLite from 'react-native-sqlite-storage';
  
 var db = SQLite.openDatabase({name: 'database.db', createFromLocation: '~www/database.db'});
 
-export default class Devices extends Component {
+export default class NewDevice extends Component {
 
   constructor(props){
     super(props);
 
     this.state = {
-      devices: []
+      devices: [],
+      refreshing: false,
     }
 
   }
@@ -46,10 +47,7 @@ export default class Devices extends Component {
       stack: {
         children: [{
           component: {
-            name: 'Creatingdevice',
-            passProps: {
-              // componentId: componentName
-            },
+            name: 'NewDevice',
             options: {
               topBar: {
                 title: {
@@ -88,6 +86,16 @@ export default class Devices extends Component {
       }
     });
   }
+
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    return setTimeout(() => {
+      this._downloadDataFromDatabase();
+      this.setState({refreshing: false});
+    }, 100);
+  };
+
+ 
 
   
 
@@ -142,7 +150,13 @@ export default class Devices extends Component {
 
     return (
    
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+        }>
         
             {rowsOfTiles}
      

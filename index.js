@@ -28,27 +28,6 @@ Navigation.events().registerAppLaunchedListener(() => {
   });    
   Navigation.setRoot({
     root: {
-      // sideMenu: {
-      //   center: {
-      //     stack: {
-      //       id: 'MAIN_STACK',
-      //       children: [
-      //         {
-      //           component: {
-      //             name: 'Devices',
-      //             options: {
-      //               topBar: {
-      //                 title: {
-      //                   text: "Devices"
-      //                 }
-      //               }
-      //             }
-      //           }
-      //         },
-      //       ]
-      //     }
-      //   }
-      // },
       bottomTabs: {
         children: [{
           component: {

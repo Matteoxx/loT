@@ -7,7 +7,7 @@ import SQLite from 'react-native-sqlite-storage';
  
 var db = SQLite.openDatabase({name: 'database.db', createFromLocation: '~www/database.db'});
 
-export default class Creatingdevice extends Component {
+export default class AddDevice extends Component {
   
   constructor(props) {
     super(props);
@@ -22,7 +22,7 @@ export default class Creatingdevice extends Component {
   }
 
   goToScreen = (screenName) => {
-    Navigation.push(this.props.componentId, {
+    Navigation.setStackRoot(this.props.componentId, {
       component: {
         name: screenName,
         options: {
@@ -41,7 +41,6 @@ export default class Creatingdevice extends Component {
       name: this.props.name,
       place: this.props.place,
       command: this.props.command
-      
     })
   }
 
@@ -68,10 +67,10 @@ export default class Creatingdevice extends Component {
 
       });
       
-      // this.closeModal();
-      this.goToScreen('Devices')
+      this.closeModal();
 
     }
+
   }
 
   closeModal(){
@@ -83,9 +82,10 @@ export default class Creatingdevice extends Component {
       stack: {
         children: [{
           component: {
-            name: 'Pickingcolor',
+            name: 'PickColor',
             passProps: {
-              componentName: 'Creatingdevice',
+              componentName: 'NewDevice',
+              componentTitle: 'New device',
               name: this.state.name,
               place: this.state.place,
               command: this.state.command
@@ -172,9 +172,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    flex: 1
   },
   inputs: {
     justifyContent: 'center',

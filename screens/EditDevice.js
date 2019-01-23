@@ -21,18 +21,30 @@ export default class EditDevice extends Component {
 
   }
 
+  componentDidMount(){
+    if( (this.props.colorOfTile!=this.props.deviceColorOfTile) && this.props.colorOfTile != undefined){
+      this.setState({
+        colorOfTile: this.props.colorOfTile,
+        name: this.props.name,
+        place: this.props.place,
+        command: this.props.command
+      })
+    } 
+  
+  }
+
   _updateDevice(){
     let query = `UPDATE devices SET name = '${this.state.name}', place = '${this.state.place}', command = '${this.state.command}', colorOfTile = '${this.state.colorOfTile}'
                   WHERE name = '${this.props.deviceToChange}'`;
     db.executeSql(query);
-    this.goToScreen('Devices');
+    this.closeModal();
   }
 
   _deleteDevice(){
 
     let query = `DELETE FROM devices WHERE name = '${this.props.deviceToChange}'`;
     db.executeSql(query);
-    this.goToScreen('Devices');
+    this.closeModal();
 
   }
 
@@ -40,29 +52,15 @@ export default class EditDevice extends Component {
     Navigation.dismissAllModals();
   }
 
-  goToScreen = (screenName) => {
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: screenName,
-        options: {
-          topBar: {
-            title: {
-              text: screenName
-            }
-          }
-        }
-      }
-    })
-  }
-
   goToColorPicking = () => {
     Navigation.showModal({
       stack: {
         children: [{
           component: {
-            name: 'Pickingcolor',
+            name: 'PickColor',
             passProps: {
               componentName: 'EditDevice',
+              componentTitle: 'Edit device',
               name: this.state.name,
               place: this.state.place,
               command: this.state.command
@@ -129,16 +127,16 @@ export default class EditDevice extends Component {
           style={styles.menu}
             >
 
+            <TouchableOpacity style={styles.btn} onPress={()=> this._deleteDevice()}>
+
+              <Text style={styles.btnTxt}>Delete device</Text>
+
+            </TouchableOpacity>
+
             <TouchableOpacity style={styles.btn}
               onPress={() => this._updateDevice()}
               >
-              <Text style={styles.btnTxt}>Update tile</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.btn} onPress={()=> this._deleteDevice()}>
-
-              <Text style={styles.btnTxt}>Delete tile</Text>
-
+              <Text style={styles.btnTxt}>Update device</Text>
             </TouchableOpacity>
 
           </View>
@@ -181,9 +179,11 @@ const styles = StyleSheet.create({
   },
   btn: {
     borderWidth: 1,
-    width: '35%',
-    padding: 5,
+    width: '45%',
+    padding: '2%',
     marginTop: '5%',
+    marginLeft: '1%',
+    marginRight: '1%',
     borderRadius: 5
   },
   btnTxt: {
@@ -194,6 +194,5 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'space-around'
   },
 });
